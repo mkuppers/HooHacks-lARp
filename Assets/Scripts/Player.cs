@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
+    public float totalHealth = 100f;
+    public float currHealth = 100f;
     public float strength = 10f;
     public float experience = 0f;
     void Start()

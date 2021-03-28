@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using OpenAI_Unity;
 
 public class Enemy : MonoBehaviour
 {
-    Player user;
+    public Player user;
+    public EncounterUI encount;
     public Material dmgMat;
     private Material ogMat;
     private GameObject healthbar;   
@@ -23,18 +25,20 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         user = GameObject.Find("Player").GetComponent<Player>();
+        encount = GameObject.Find("Canvas").GetComponent<EncounterUI>();
         healthbar = this.transform.GetChild(0).GetChild(0).gameObject;
         healthBarSize = healthbar.transform.localScale;
 
         this.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = characterName;
 
-        ogMat = this.gameObject.GetComponent<Renderer>().material;
+        ogMat = this.transform.GetChild(3).GetChild(0).GetComponent<Renderer>().material;
         timer = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        this.transform.LookAt(Camera.main.transform);
         if (aggro) {
             timer += Time.deltaTime;
             if (timer >= attackTime) {
@@ -47,16 +51,25 @@ public class Enemy : MonoBehaviour
     //Attacked
     private void OnMouseDown()
     {
-        if (aggro) {
+        if (aggro)
+        {
             takeDmg();
+        }
+        else {
+            encount.shroom = this.transform.GetChild(2).GetComponent<OAICharacter>();
         }
     }
 
     private IEnumerator redFlash()
     {
-        this.gameObject.GetComponent<Renderer>().material = dmgMat;
+        for (int i = 0; i < this.transform.GetChild(3).childCount; ++i) {
+            this.transform.GetChild(3).GetChild(i).GetComponent<Renderer>().material = dmgMat;
+        }
         yield return new WaitForSeconds(0.05f);
-        this.gameObject.GetComponent<Renderer>().material = ogMat;
+        for (int i = 0; i < this.transform.GetChild(3).childCount; ++i)
+        {
+            this.transform.GetChild(3).GetChild(i).GetComponent<Renderer>().material = ogMat;
+        }
     }
 
     private void takeDmg() {

@@ -15,6 +15,7 @@ public class EncounterUI : MonoBehaviour
     public GameObject success;
     bool talkMode = false;
     public OAICharacter shroom;
+    public GameObject talkMenu;
     int counter = 0;
 
     public string playerSpeech;
@@ -63,6 +64,7 @@ public class EncounterUI : MonoBehaviour
     }
     public void onAttack() {
         hideButtons();
+        talkMenu.SetActive(false);
         foreach (GameObject character in characters)
         {
             character.GetComponent<Enemy>().aggro = true;

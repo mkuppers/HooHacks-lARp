@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharGen : MonoBehaviour
 {
     public List<GameObject> enemyController;
+    public GameObject island;
     string[] bodyParts = new string[] {"head", "face", "body"};
     string[] capStyles = {"under",
                           "straw",
@@ -67,7 +68,10 @@ public class CharGen : MonoBehaviour
 
         mushChar.transform.localScale = new Vector3(1, 1, 1);
         GameObject character = Instantiate(enemyController[(int)Random.Range(0, enemyController.Count)], new Vector3(0,0,0), Quaternion.identity);
+        GameObject isle = Instantiate(island, new Vector3(0, -0.3f, 0), Quaternion.identity);
         mushChar.transform.parent = character.transform;
+        mushChar.transform.position = new Vector3(0, 0, -0.15f);
+        isle.transform.parent = character.transform;
         return character;
 
     }
@@ -146,8 +150,12 @@ public class CharGen : MonoBehaviour
     }
 
     private void PackageSprites(GameObject parentGO) {
-        GetCapSpriteGO().transform.SetParent(parentGO.transform);
-        GetFaceSpriteGO().transform.SetParent(parentGO.transform);
+        GameObject cap = GetCapSpriteGO();
+        cap.transform.SetParent(parentGO.transform);
+        cap.transform.localPosition = new Vector3(cap.transform.localPosition.x, cap.transform.localPosition.y, cap.transform.localPosition.z + 0.02f);
+        GameObject face = GetFaceSpriteGO();
+        face.transform.SetParent(parentGO.transform);
+        face.transform.localPosition = new Vector3(face.transform.localPosition.x, face.transform.localPosition.y, face.transform.localPosition.z + 0.04f);
         GetBodySpriteGO().transform.SetParent(parentGO.transform);
     }
 

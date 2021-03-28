@@ -459,6 +459,7 @@ MonoBehaviour:
   strength: 15
   timer: 0
   attackTime: 2
+  swordSlash: {fileID: 0}
 --- !u!1 &475172879099967910
 GameObject:
   m_ObjectHideFlags: 0

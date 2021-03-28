@@ -66,9 +66,8 @@ public class CharGen : MonoBehaviour
         PackageSprites(mushChar);
 
         mushChar.transform.localScale = new Vector3(30, 30, 1);
-        // ArrangePlanes(mushChar);
 
-        // return mushChar;
+        return mushChar;
 
     }
 

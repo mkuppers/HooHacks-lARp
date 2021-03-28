@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: DefaultQuest
-  distance: 1000
+  distance: 0
   exp: 5
   description: 
   encounter: 0

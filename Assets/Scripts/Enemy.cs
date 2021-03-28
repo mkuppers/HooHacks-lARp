@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using OpenAI_Unity;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviour
     public int strength = 15;
     public float timer;
     public float attackTime = 3f;
+    public RectTransform swordSlash;
 
     private Vector3 healthBarSize;
     // Start is called before the first frame update
@@ -28,6 +30,7 @@ public class Enemy : MonoBehaviour
         user = GameObject.Find("Player").GetComponent<Player>();
         success = GameObject.Find("NoteParent");
         encount = GameObject.Find("Canvas").GetComponent<EncounterUI>();
+        swordSlash = GameObject.Find("SwordSlash").GetComponent<RectTransform>();
         healthbar = this.transform.GetChild(0).GetChild(0).gameObject;
         healthBarSize = healthbar.transform.localScale;
 
@@ -55,6 +58,8 @@ public class Enemy : MonoBehaviour
     {
         if (aggro)
         {
+            IEnumerator slashh = slash();
+            StartCoroutine(slashh);
             takeDmg();
         }
         else {
@@ -74,6 +79,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private IEnumerator slash()
+    {
+        swordSlash.localScale = new Vector3(4.2f, 4.2f, 4.2f);
+        yield return new WaitForSeconds(0.05f);
+        swordSlash.localScale = new Vector3(-4.2f, -4.2f, -4.2f);
+        yield return new WaitForSeconds(0.05f);
+        swordSlash.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+    }
+
     private void takeDmg() {
             
         currHealth -= user.strength;
@@ -89,6 +103,7 @@ public class Enemy : MonoBehaviour
     public void die() {
         user.experience += exp;
         success.transform.GetChild(0).gameObject.SetActive(true);
+        swordSlash.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         Destroy(this.gameObject);
     }  
 }

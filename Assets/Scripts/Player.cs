@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
             inUI = false;
             healthbar = GameObject.Find("Fill").GetComponent<RectTransform>();
             redFlash = GameObject.Find("ScreenFlash").GetComponent<Image>();
+            onStep(totalSteps, 0);
         }
     }
 

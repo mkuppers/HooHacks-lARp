@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public float strength = 10f;
     public int experience = 0;
     public int steps = 0;
+    int encounters = 1;
     public float timer;
     public bool startRun;
     private float endDistPos = -85;
@@ -30,10 +31,14 @@ public class Player : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
         if (SceneManager.GetActiveScene().name == "LoadInScene") {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
         p = new Pedometer(onStep);        
         inUI = true;
+    }
+
+    public void doneWithEncounter() {
+        SceneManager.LoadScene(1);
     }
     
     void OnLevelWasLoaded(int level) {
@@ -87,10 +92,15 @@ public class Player : MonoBehaviour
     public void onStep(int steps, double distance) {
         if (steps == 0 && distance == 0) {
             missionTitle.text = currentQuest.title;
+            encounters = 1;
         }
         if (inUI) {
             stepText.text = (currentQuest.distance - steps).ToString();
         }
         dist.position = new Vector2(dist.position.x, dist.position.y + (endDistPos - startDistPos) * steps / currentQuest.distance);
+        if (steps / currentQuest.distance >= 1 / 3 * encounters) {
+            encounters++;
+            SceneManager.LoadScene(2);
+        }
     }
 }

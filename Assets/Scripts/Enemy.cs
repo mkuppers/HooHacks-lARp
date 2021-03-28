@@ -86,6 +86,7 @@ public class Enemy : MonoBehaviour
 
     private void die() {
         user.experience += exp;
+        user.doneWithEncounter();
         Destroy(this.gameObject);
     }  
 }

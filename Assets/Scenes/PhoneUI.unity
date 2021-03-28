@@ -789,7 +789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Deliver my Shiitake
-  distance: 2000
+  distance: 50
   exp: 500
   description: I have too many Shiitake! Please bring them to my son.
   encounter: 1

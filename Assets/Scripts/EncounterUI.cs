@@ -29,7 +29,14 @@ public class EncounterUI : MonoBehaviour
     {
         attackButton = GameObject.Find("AttackButton");
         talkButton = GameObject.Find("TalkButton");
-        characters = GameObject.FindGameObjectsWithTag("AI");
+        IEnumerator flash = redFlash();
+        StartCoroutine(flash);
+    }
+
+    private IEnumerator redFlash()
+    {
+        yield return new WaitForSeconds(1f);
+        characters = GameObject.FindGameObjectsWithTag("Character");
         shroom = GameObject.FindGameObjectWithTag("AI").GetComponent<OAICharacter>();
     }
 

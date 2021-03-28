@@ -23,25 +23,33 @@ public class Player : MonoBehaviour
     Pedometer p;
     public TextMeshProUGUI timeUI, stepText, missionTitle;
     public Text distanceText;
+    public Image redFlash;
 
     public Quest currentQuest;
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+        if (SceneManager.GetActiveScene().name == "LoadInScene") {
+            SceneManager.LoadScene(2);
+        }
         p = new Pedometer(onStep);        
         inUI = true;
     }
     
-    void OnSceneLoaded() {
-        if (SceneManager.GetActiveScene().name == "PhoneUI")
+    void OnLevelWasLoaded(int level) {
+        if (level == 1)
         {
             stepText = GameObject.Find("Steps").GetComponent<TextMeshProUGUI>();
             distanceText = GameObject.Find("Distance").GetComponent<Text>();
             timeUI = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
+            missionTitle = GameObject.Find("MissionTitle").GetComponent<TextMeshProUGUI>();
+            dist = GameObject.Find("In").GetComponent<RectTransform>();
             inUI = true;
         }
-        else {
+        if (level == 2) {
             inUI = false;
+            healthbar = GameObject.Find("Fill").GetComponent<RectTransform>();
+            redFlash = GameObject.Find("ScreenFlash").GetComponent<Image>();
         }
     }
 
@@ -57,12 +65,23 @@ public class Player : MonoBehaviour
                 timeUI.text = minutes.ToString("00") + ":" + seconds.ToString("00");
             }
         }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            SceneManager.LoadScene(2);
+        }
+        if (redFlash) {
+            if (redFlash.color.a >= 0) {
+                Color c = new Color(redFlash.color.r, redFlash.color.g, redFlash.color.b, redFlash.color.a - Time.deltaTime);
+                redFlash.color = c;
+            }
+        }
     }
 
     public void takeDmg(int dmg) {
         currHealth -= dmg;
         float healthDelta = currHealth / totalHealth;
         healthbar.localScale = new Vector2(healthbar.localScale.x * healthDelta, healthbar.localScale.y);
+        Color c = new Color(redFlash.color.r, redFlash.color.g, redFlash.color.b, 1f);
+        redFlash.color = c;
     }
 
     public void onStep(int steps, double distance) {

@@ -49,7 +49,7 @@ public class CharGen : MonoBehaviour
 
     private void Start()
     {
-        GenerateMushroomChar();
+        
 
     }
 
@@ -65,8 +65,8 @@ public class CharGen : MonoBehaviour
         ArrangeSprites(genRandLook);
         PackageSprites(mushChar);
 
-        mushChar.transform.localScale = new Vector3(5, 5, 1);
-        GameObject character = Instantiate(enemyController, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        mushChar.transform.localScale = new Vector3(1, 1, 1);
+        GameObject character = Instantiate(enemyController, new Vector3(0,0,0), Quaternion.identity);
         mushChar.transform.parent = character.transform;
         return character;
 

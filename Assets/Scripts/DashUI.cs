@@ -15,7 +15,7 @@ public class DashUI : MonoBehaviour
     public Player user;
     void Start()
     {
-        
+        user = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
